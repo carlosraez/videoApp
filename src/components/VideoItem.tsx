@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 
 import { VideoItemProps } from './interfaces/VideoTypes'
 import { styles } from './styles'
@@ -16,8 +16,12 @@ import i18n from '../i18n/i18n'
  * - thumbnail: String URL to the video's thumbnail image.
  */
 export const VideoItem: React.FC<VideoItemProps> = React.memo(
-  ({ title, description, thumbnail }) => {
+  ({ title, description, thumbnail, videoId, navigation }) => {
     const [imageUri, setImageUri] = useState(thumbnail)
+
+    const handlePress = () => {
+      navigation.navigate('VideoDetailScreen', { videoId });
+    }
 
     const getImage = () => {
       return (
@@ -38,7 +42,7 @@ export const VideoItem: React.FC<VideoItemProps> = React.memo(
         accessibilityLabel={`${i18n.t('videoItem.titleUnavailable')}: ${title}`}
         style={styles.title}
       >
-         {title || i18n.t('videoItem.titleUnavailable')}
+        {title || i18n.t('videoItem.titleUnavailable')}
       </Text>
     )
     const getDescription = () => (
@@ -52,13 +56,15 @@ export const VideoItem: React.FC<VideoItemProps> = React.memo(
     )
 
     return (
-      <View style={styles.container}>
-        {getImage()}
-        <View style={styles.descriptionContainer}>
-          {getTitle()}
-          {getDescription()}
+      <TouchableOpacity onPress={handlePress}>
+        <View style={styles.container}>
+          {getImage()}
+          <View style={styles.descriptionContainer}>
+            {getTitle()}
+            {getDescription()}
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 )

@@ -21,3 +21,7 @@ export interface NasaVideoItem {
     links: NasaVideoLink[];
   }
   
+  export  interface RootStackParamList {
+    Home: undefined;
+    VideoDetailScreen: { videoId: string }; 
+  };

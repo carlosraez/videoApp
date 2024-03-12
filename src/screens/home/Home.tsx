@@ -73,11 +73,13 @@ export const Home = ({ navigation }: any) => {
     return (
       <FlatList
         data={videos}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <VideoItem
             title={item?.data[0]?.title}
             description={item?.data[0]?.description}
             thumbnail={item?.links[0]?.href}
+            videoId={item?.data[0]?.nasa_id}
+            navigation={navigation}
           />
         )}
         keyExtractor={(item, index) => item?.data[0]?.nasa_id ?? `item-${index}`}

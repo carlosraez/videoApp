@@ -10,7 +10,7 @@ export const HomeStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Details" component={VideoDetailsScreen} />
+      <Stack.Screen name="VideoDetailScreen" component={VideoDetailsScreen} />
     </Stack.Navigator>
   );
 };
