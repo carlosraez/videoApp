@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, ActivityIndicator } from 'react-native'
 import { ResizeMode, Video } from 'expo-av'
 
 import { fetchVideoDetails } from '../../services/VideosApi'
 import i18n from '../../i18n/i18n'
 import { RouteProp } from '@react-navigation/native'
 import { VideoDetailRouteParams } from '../../interfaces/interfaces'
+import { styles } from './styles'
+import { PRIMARY_COLOR } from '../../config/themes/colors'
 
 export const VideoDetailsScreen = ({
   route,
@@ -46,6 +48,16 @@ export const VideoDetailsScreen = ({
     }
   }
 
+  const getVideoLoading = () => {
+    return (
+      videoLoading && (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      )
+    )
+  }
+
   /**
    * Returns a video component with loading indicator.
    * Displays an ActivityIndicator while video is loading.
@@ -53,11 +65,7 @@ export const VideoDetailsScreen = ({
   const getVideo = () => {
     return (
       <View style={styles.container}>
-        {videoLoading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#0000ff" />
-          </View>
-        )}
+        {getVideoLoading()}
         <Video
           source={{ uri: videoUri }}
           rate={1.0}
@@ -82,7 +90,7 @@ export const VideoDetailsScreen = ({
     if (loading) {
       return (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color={PRIMARY_COLOR} />
         </View>
       )
     }
@@ -94,25 +102,3 @@ export const VideoDetailsScreen = ({
 
   return <View style={styles.container}>{renderContent()}</View>
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  loadingContainer: {
-    position: 'absolute',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-  },
-  video: {
-    width: '100%',
-    height: '100%',
-  },
-  description: {
-    fontSize: 16,
-    textAlign: 'justify',
-    marginVertical: 20,
-  },
-})

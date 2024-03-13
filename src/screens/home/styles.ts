@@ -9,12 +9,6 @@ export const styles = StyleSheet.create({
         marginTop: 40,
         marginHorizontal: 16,
       },
-      title: {
-        fontSize: 22,
-        fontFamily: 'Public Sans',
-        fontWeight: '600',
-        color: 'black',
-      },
       input: {
         marginTop: 10,
         maxWidth: 358,
