@@ -6,5 +6,7 @@ export const en = {
     titleUnavailable: 'Title unavailable',
     descriptionUnavailable: 'Description unavailable',
     thumbnailAlt: 'Representative image of the video titled',
+    pause:'Pause',
+    play:'Play'
   },
 }

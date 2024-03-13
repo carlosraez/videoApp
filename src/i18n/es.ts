@@ -5,6 +5,8 @@ export const es = {
     video: {
       titleUnavailable: "Título no disponible",
       descriptionUnavailable: "Descripción no disponible",
-      thumbnailAlt: "Imagen representativa del video titulado"
+      thumbnailAlt: "Imagen representativa del video titulado",
+      pause:'Pause',
+      play:'Play'
     }
   };
