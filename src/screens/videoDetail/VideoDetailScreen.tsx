@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import { ResizeMode, Video } from 'expo-av'
 
-import { fetchVideoDetails } from '../services/VideosApi'
-import i18n from '../i18n/i18n'
+import { fetchVideoDetails } from '../../services/VideosApi'
+import i18n from '../../i18n/i18n'
 import { RouteProp } from '@react-navigation/native'
-import { VideoDetailRouteParams } from '../interfaces/interfaces'
+import { VideoDetailRouteParams } from '../../interfaces/interfaces'
 
 export const VideoDetailsScreen = ({
   route,

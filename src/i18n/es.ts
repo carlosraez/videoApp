@@ -7,6 +7,7 @@ export const es = {
       descriptionUnavailable: "Descripción no disponible",
       thumbnailAlt: "Imagen representativa del video titulado",
       pause:'Pause',
-      play:'Play'
+      play:'Play',
+      loadMore: 'Siguiente Página'
     }
   };

@@ -7,6 +7,7 @@ export const en = {
     descriptionUnavailable: 'Description unavailable',
     thumbnailAlt: 'Representative image of the video titled',
     pause:'Pause',
-    play:'Play'
+    play:'Play',
+    loadMore: 'Next Page'
   },
 }

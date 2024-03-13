@@ -19,12 +19,4 @@ export const styles = StyleSheet.create({
          margin: 5,
          width: '70%'
       },
-      title: {
-        fontWeight: 'bold',
-      },
-      description: {
-        fontSize: 12,
-        color: '#666',
-        
-      }
 });

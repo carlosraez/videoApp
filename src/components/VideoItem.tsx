@@ -5,6 +5,7 @@ import { VideoItemProps } from './interfaces/VideoTypes'
 import { styles } from './styles'
 import { defaultThumbnail } from '../constants/constants'
 import i18n from '../i18n/i18n'
+import { typographyStyles } from '../config/themes/typography'
 
 /**
  * VideoItem component displays video information including a thumbnail,
@@ -40,14 +41,14 @@ export const VideoItem: React.FC<VideoItemProps> = React.memo(
       <Text
         accessible
         accessibilityLabel={`${i18n.t('videoItem.titleUnavailable')}: ${title}`}
-        style={styles.title}
+        style={typographyStyles.h3}
       >
         {title || i18n.t('videoItem.titleUnavailable')}
       </Text>
     )
     const getDescription = () => (
       <Text
-        style={styles.description}
+        style={typographyStyles.p}
         accessible
         accessibilityLabel={`${i18n.t('videoItem.descriptionUnavailable')}: ${description}`}
       >

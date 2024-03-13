@@ -5,54 +5,65 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Button,
 } from 'react-native'
 import i18n from '../../i18n/i18n'
 
 import { fetchVideos } from '../../services/VideosApi'
 import { VideoItem } from '../../components/VideoItem'
-import { styles } from './sytles'
+import { styles } from './styles'
 import { NasaVideoData } from '../../interfaces/interfaces'
+import { typographyStyles } from '../../config/themes/typography'
+import { PRIMARY_COLOR } from '../../config/themes/colors'
 
 export const Home = ({ navigation }: any) => {
   const [loading, setLoading] = useState(false)
   const [videos, setVideos] = useState<NasaVideoData[]>([])
   const [query, setQuery] = useState('')
   const [error, setError] = useState('')
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
 
   /**
    * useEffect hook that loads videos when the component mounts.
    */
   useEffect(() => {
     loadVideos()
-  }, [])
+  }, [page])
 
   /**
    * Loads videos from the API based on the current query state. Sets loading status and catches errors.
    * @param {string} query - The current search query.
    */
-  const loadVideos = async (query: string = '') => {
+  const loadVideos = async (query: string = '', ) => {
+    if (!hasMore) return
+
     setLoading(true) // Comienza la carga
     try {
-      const results = await fetchVideos(query)
+      const results = await fetchVideos(query, page)
       setVideos(results)
     } catch (error) {
       console.error('Error fetching videos:', error)
-      setError(i18n.t('errorFetchingVideos'));
+      setError(i18n.t('errorFetchingVideos'))
     } finally {
       setLoading(false)
     }
   }
 
   /**
-   * Triggers a video search based on the current query.
+   * Initiates a new search based on the current query.
+   * This function resets the video list, restarts pagination, and assumes there are more pages to fetch.
+   * It should be called whenever the user submits a new search query.
    */
   const searchVideos = () => {
-    loadVideos()
+    setVideos([]) // Limpia los vídeos existentes
+    setPage(1) // Reinicia la paginación
+    setHasMore(true) // Asume que hay más páginas al comenzar una nueva búsqueda
   }
 
   /**
-  * Renders the search input component.
-  */
+   * Renders the search input component.
+   */
   const getSearch = () => {
     return (
       <TextInput
@@ -64,6 +75,15 @@ export const Home = ({ navigation }: any) => {
         onSubmitEditing={searchVideos}
       />
     )
+  }
+
+  /**
+   * Increase page
+   */
+  const handleLoadMore = () => {
+    if (!loading && hasMore) {
+      setPage(prevPage => prevPage + 1)    
+    }
   }
 
   /**
@@ -82,29 +102,33 @@ export const Home = ({ navigation }: any) => {
             navigation={navigation}
           />
         )}
-        keyExtractor={(item, index) => item?.data[0]?.nasa_id ?? `item-${index}`}
+        keyExtractor={(item, index) =>
+          item?.data[0]?.nasa_id ?? `item-${index}`
+        }
       />
     )
   }
-
 
   /**
    * Determines and renders the current content based on the loading and error states.
    */
   const renderContent = () => {
-    if (loading) return <ActivityIndicator size="large" color="#0000ff" />;
-    if (error) return <Text>{error}</Text>;  
-    return getListVideos(); 
-  };
+    if (loading) return <ActivityIndicator size="large" color={PRIMARY_COLOR} />
+    if (error) return <Text>{error}</Text>
+    return getListVideos()
+  }
 
   // Main render function of the Home component.
   return (
     <View style={styles.container}>
       <View style={styles.intro}>
-        <Text style={styles.title}>{i18n.t('titleIntro')}</Text>
+        <Text style={typographyStyles.h1}>{i18n.t('titleIntro')}</Text>
         {getSearch()}
       </View>
       {renderContent()}
+      {hasMore && !loading && (
+        <Button onPress={handleLoadMore} title={i18n.t('video.loadMore')} />
+      )}
     </View>
   )
 }
