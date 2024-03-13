@@ -7,7 +7,7 @@ export interface VideoItemProps {
     description: string;
     thumbnail: string;
     videoId: string; 
-    navigation: NavigationProp<RootStackParamList, 'Details'>;
+    navigation: NavigationProp<RootStackParamList, 'VideoDetailScreen'>;
   }
   
   export interface VideoPlayerProps {

@@ -35,7 +35,7 @@ export const Home = ({ navigation }: any) => {
    * Loads videos from the API based on the current query state. Sets loading status and catches errors.
    * @param {string} query - The current search query.
    */
-  const loadVideos = async (query: string = '', ) => {
+  const loadVideos = async (query: string = '') => {
     if (!hasMore) return
 
     setLoading(true) // Comienza la carga
@@ -56,9 +56,9 @@ export const Home = ({ navigation }: any) => {
    * It should be called whenever the user submits a new search query.
    */
   const searchVideos = () => {
-    setVideos([]) // Limpia los vídeos existentes
-    setPage(1) // Reinicia la paginación
-    setHasMore(true) // Asume que hay más páginas al comenzar una nueva búsqueda
+    setVideos([])
+    setPage(1)
+    setHasMore(true)
   }
 
   /**
@@ -82,8 +82,23 @@ export const Home = ({ navigation }: any) => {
    */
   const handleLoadMore = () => {
     if (!loading && hasMore) {
-      setPage(prevPage => prevPage + 1)    
+      setPage(prevPage => prevPage + 1)
     }
+  }
+
+  /**
+   * Return Video Item component
+   */
+  const getVideoItem = (item: NasaVideoData) => {
+    return (
+      <VideoItem
+        title={item?.data[0]?.title}
+        description={item?.data[0]?.description}
+        thumbnail={item?.links[0]?.href}
+        videoId={item?.data[0]?.nasa_id}
+        navigation={navigation}
+      />
+    )
   }
 
   /**
@@ -93,15 +108,7 @@ export const Home = ({ navigation }: any) => {
     return (
       <FlatList
         data={videos}
-        renderItem={({ item }) => (
-          <VideoItem
-            title={item?.data[0]?.title}
-            description={item?.data[0]?.description}
-            thumbnail={item?.links[0]?.href}
-            videoId={item?.data[0]?.nasa_id}
-            navigation={navigation}
-          />
-        )}
+        renderItem={({ item }) => getVideoItem(item)}
         keyExtractor={(item, index) =>
           item?.data[0]?.nasa_id ?? `item-${index}`
         }
